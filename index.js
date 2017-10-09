@@ -2,7 +2,7 @@ const opentype = require('opentype.js');
 const exec = require('child_process').exec;
 const mapLimit = require('map-limit');
 const MultiBinPacker = require('multi-bin-packer');
-const Canvas = require('canvas');
+const { createCanvas, loadImage, ImageData } = require('canvas')
 const path = require('path');
 
 const defaultCharset = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".split('');
@@ -52,7 +52,7 @@ function generateBMFont (fontPath, opt, callback) {
   if (font.outlinesFormat !== 'truetype') {
     throw new TypeError('must specify a truetype font');
   }
-  const canvas = new Canvas(textureWidth, textureHeight);
+  const canvas = createCanvas(textureWidth, textureHeight);
   const context = canvas.getContext('2d');
   const packer = new MultiBinPacker(textureWidth, textureHeight, texturePadding);
   const chars = [];
@@ -232,7 +232,7 @@ function generateImage (opt, callback) {
       width = 0;
       height = 0;
     } else {
-      imageData = new Canvas.ImageData(new Uint8ClampedArray(pixels), width, height);
+      imageData = new ImageData(new Uint8ClampedArray(pixels), width, height);
     }
     const container = {
       data: {
